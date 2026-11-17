@@ -1,4 +1,4 @@
-def chunk_text(text, size=800, overlap=100):
+def chunk_text(text, size=400, overlap=100):
     if overlap >= size:
         raise ValueError("overlap must be smaller than size")
     chunks = []
@@ -18,10 +18,13 @@ class Chunk:
     text: str
     source: str
     page: int
+    distance: float | None = None
 
 def chunk_pages(pages):
     chunks = []
     for page in pages:
         for text in chunk_text(page.text):
+            if not text.strip():
+                continue
             chunks.append(Chunk(text=text, source=page.source, page=page.page))
     return chunks
